@@ -1,0 +1,357 @@
+/* variables colors for now implement later */
+    :root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #ee5f5b;
+    --orange: #fd7e14;
+    --yellow: #f89406;
+    --green: #008000;
+    --teal: #20c997;
+    --cyan: #5bc0de;
+    --white: #fff;
+    --black:#000;
+    --gray: #7A8288;
+    --gray-dark: #3A3F44;
+    --primary: #3A3F44;
+    --secondary: #7A8288;
+    --success: #62c462;
+    --info: #5bc0de;
+    --warning: #f89406;
+    --danger: #ee5f5b;
+    --light: #e9ecef;
+    --dark: #272B30;
+    --goldSand:#e4b781;
+/* alphas */
+    --grayA:rgba(255, 255, 255, 0.349);
+    --whiteA:rgba(255, 255, 255, 0.445);
+    --whiteA1:rgba(255, 255, 255, 0.788);
+/* brand */
+    --brand:#0161b6;
+    --brand-15:#005299;
+    }
+/* Printing in Canvas*/
+@media print { a:link:after, a:visited:after { content: none; }}
+/* Printing in Canvas*/
+
+
+/* clever button */
+    a.Button.Button--primary.ic-Login__sso-button--has-text.ic-Login__sso-button.ic-Login__sso-button--clever{
+        will-change: auto;
+        animation-name: noticeMeSenpai;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+/* animation for button */
+    @keyframes noticeMeSenpai{
+        0% { box-shadow: 0 0 -10px var(--brand)}
+        40% { box-shadow: 0 0 20px var(--brand)}
+        60% { box-shadow: 0 0 20px var(--brand)}
+        100% { box-shadow: 0 0 -10px var(--brand)}
+    }
+/*------------------------------------------------------------------------  */
+/*------------------------------------------------------------  */
+/*--------------------------------------------------  */
+/*--------------------------------------  */
+/*----------------------------  */
+/*-----------------  */
+/*---------  */
+/*---  */
+/*--  */
+/*-  */
+/* Not the Login page */
+/* Sidebar left navigation */
+    header.ic-app-header.no-print{
+        background-color: var(--green);
+    }
+    div.file-upload-submission-attachment .modal_preview_link{
+    background: var(--brand);
+    color: var(--white);
+    border: 1px solid;
+    border-color: var(--brand-15);
+    border-radius: 3px;
+    transition: background-color 0.2s ease-in-out;
+    display: inline-block;
+    position: relative;
+    padding: 8px 14px;
+    margin-bottom: 0;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    text-shadow: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    }
+      /* 
+  file-upload-submission-attachment
+  "modal_preview_link Button--link"
+  */
+/*------------------------------------------------------------------------  */
+/*------------------------------------------------------------  */
+/*--------------------------------------------------  */
+/*--------------------------------------  */
+/*----------------------------  */
+/*-----------------  */
+/*---------  */
+/*---  */
+/*--  */
+/*-  */
+/* Mobile Application */
+    .mobileLogin-Header{
+        z-index: 1;
+        background-image: none !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        /* background-size: cover; */
+    }
+
+    .ic-Login-header__links{
+        flex:0;
+    }
+
+    .ic-Login-footer__logo-link.external{
+        display: none !important;
+    }
+
+    .glow {
+        will-change: auto;
+        animation-name: noticeMeSenpai;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+                    /* ---                                     
+                    -        --                             
+                --( /     \ )XXXXXXXXXXXXX                   
+            --XXX(   O   O  )XXXXXXXXXXXXXXX-              
+           /XXX(       U     )        XXXXXXX\               
+         /XXXXX(              )--   XXXXXXXXXXX\             
+        /XXXXX/ (      O     )   XXXXXX   \XXXXX\
+        XXXXX/   /            XXXXXX   \   \XXXXX----        
+        XXXXXX  /          XXXXXX         \  ----  -         
+---     XXX  /          XXXXXX      \           ---        
+  --  --  /      /\  XXXXXX            /     ---=         
+    -        /    XXXXXX              '--- XXXXXX         
+      --\/XXX\ XXXXXX                      /XXXXX         
+        \XXXXXXXXX                        /XXXXX/
+         \XXXXXX                         /XXXXX/         
+           \XXXXX--  /                -- XXXX/       
+            --XXXXXXX---------------  XXXXX--         
+               \XXXXXXXXXXXXXXXXXXXXXXXX-            
+                 --XXXXXXXXXXXXXXXXXX- */
+                 
+/* Hide Delete Courses comment out to re-enable the delete courses option  */
+    #right-side a[href$="conclude"] {
+        display:none !important;
+        }
+    #right-side a[href$="delete"] {
+        display:none !important;
+        }
+/* Hide Delete Courses comment out to re-enable the delete courses option  */
+
+    #right-side 
+/* Hide to-do-list comment out to re-enable the to-do-list option  */
+    .todo-list , .Sidebar__TodoListContainer{
+        display:none !important;
+        }
+/* Hide the cross section */
+    a.btn.button-sidebar-wide.crosslist_link{
+        display:none !important ;
+    }
+/* Hide the de-crosslist */
+    a.btn.button-sidebar-wide.uncrosslist_link{
+        display:none !important ;
+    }
+/* hide add people manually */
+    #tab-0.roster-tab.tab-panel.ui-tabs-panel.form-inline.ui-widget-content.ui-corner-bottom > a{
+        display: none !important;
+    }
+/* hide email addition in the profile section */
+    a.add_email_link.icon-add{
+        display: none !important;
+    }
+/* remove the ability to change email in the profile options */
+   input#communication_channel_email{
+        display: none !important;
+    }
+/* remove all late submission notifications */
+    span.submission-late-pill{
+        display: none !important;
+    }
+
+/* Testing custom style Jewell Course*/
+/*  */
+/*
+,.  ,.
+||  ||
+,''--''.
+: (.)(.) :
+,'        `.
+:          :
+:          :
+._m____m_,'
+*/
+/*  */
+.flexboxJewell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .flexboxJewell a {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+  }
+  .flexboxJewell .card {
+    display:flex;
+    border: solid 5px;
+    border-image: conic-gradient(#A62648 25%, #038C73 25% 50%, #F2D230 50% 75%, #F29F05 75%) 1;
+    /* height: 10vh; */
+    margin: 2px;
+    align-items:center;
+    justify-content: center;
+    width: auto;
+    color: black;
+    font-family:Arial;
+    font-size:2em;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .flexboxJewell .card:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+/*
+ _ __   __ _  ___ _ __ ___   __ _ _ __  
+| '_ \ / _` |/ __| '_ ` _ \ / _` | '_ \ 
+| |_) | (_| | (__| | | | | | (_| | | | |
+| .__/ \__,_|\___|_| |_| |_|\__,_|_| |_|
+| |                                     
+|_|                                     
+*/
+  .gameLoader {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    display: inline-block;
+    margin-left: 7px;
+  }
+  .gameLoader::before,
+  .gameLoader::after {
+    content: "";
+    position: absolute;
+  }
+  
+  .pacMan {
+    border-radius: 50%;
+    width: 4px;
+    height: 4px;
+    -webkit-animation-name: pacmanDot;
+    animation-name: pacmanDot;
+    -webkit-transform: translateX(14px);
+    transform: translateX(14px);
+  }
+  .pacMan::before,
+  .pacMan::after {
+    border-radius: 50%;
+    border: 14px solid #005299;
+    border-right-color: transparent;
+    top: -12px;
+    left: -24px;
+  }
+  .pacMan,
+  .pacMan::before,
+  .pacMan::after {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    animation-play-state: var(--playState, paused);
+  }
+  .pacMan::before {
+    -webkit-animation-name: upperJaw;
+    animation-name: upperJaw;
+  }
+  .pacMan::after {
+    -webkit-animation-name: lowerJaw;
+    animation-name: lowerJaw;
+  }
+  
+  @-webkit-keyframes pacmanDot {
+    0%,
+    50% {
+      background: #008000;
+    }
+    51%,
+    100% {
+      background: none;
+    }
+    0%,
+    100% {
+      -webkit-transform: translateX(19px);
+      transform: translateX(19px);
+    }
+    50% {
+      -webkit-transform: translateX(12px);
+      transform: translateX(12px);
+    }
+  }
+  
+  @keyframes pacmanDot {
+    0%,
+    50% {
+      background: #008000;
+    }
+    51%,
+    100% {
+      background: none;
+    }
+    0%,
+    100% {
+      -webkit-transform: translateX(19px);
+      transform: translateX(19px);
+    }
+    50% {
+      -webkit-transform: translateX(12px);
+      transform: translateX(12px);
+    }
+  }
+  @-webkit-keyframes upperJaw {
+    50% {
+      -webkit-transform: rotate(50deg) translate(2px, -2px);
+      transform: rotate(50deg) translate(2px, -2px);
+    }
+  }
+  @keyframes upperJaw {
+    50% {
+      -webkit-transform: rotate(50deg) translate(2px, -2px);
+      transform: rotate(50deg) translate(2px, -2px);
+    }
+  }
+  @-webkit-keyframes lowerJaw {
+    50% {
+      -webkit-transform: rotate(-50deg) translate(2px, 2px);
+      transform: rotate(-50deg) translate(2px, 2px);
+    }
+  }
+  @keyframes lowerJaw {
+    50% {
+      -webkit-transform: rotate(-50deg) translate(2px, 2px);
+      transform: rotate(-50deg) translate(2px, 2px);
+    }
+  }

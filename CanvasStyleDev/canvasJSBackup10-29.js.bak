@@ -1,0 +1,276 @@
+const UVAFunctions = () =>{logIn(); replaceSupportButton(); saraSudo(); replacePointsWithPercentage(); studentView(); moduleGB();}
+if (document.readyState !== "loading") {
+  console.info("1");
+  UVAFunctions();
+} else {
+  document.addEventListener("DOMContentLoaded", function() {
+    console.info("2");
+    UVAFunctions();
+  });
+}
+function logIn() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#login_form").then(element => {
+    const placeHolder = `haha`;
+    console.info(`it's alive ${placeHolder}`);
+    const emailLogin = document.querySelector("#pseudonym_session_unique_id");
+    if (emailLogin !== null) {
+      emailLogin.placeholder = "Learning Coach Login";
+    }
+    const passLogin = document.querySelector("#pseudonym_session_password");
+    if (passLogin !== null) {
+      passLogin.placeholder = "Learning Coach Login";
+    }
+    let buttonLogin = document.querySelector("button.Button.Button--login");
+    if (buttonLogin !== null) {
+      buttonLogin.innerHTML = "Login";
+    }
+    let emailLoginMobile = document.querySelector(
+      '.ic-Input[name="pseudonym_session[unique_id]"]'
+    );
+    if (emailLoginMobile !== null) {
+      emailLoginMobile.placeholder = "Learning Coach Email";
+    }
+    let passLoginMobile = document.querySelector(
+      '.ic-Input[name="pseudonym_session[password]"]'
+    );
+    if (passLoginMobile !== null) {
+      passLoginMobile.placeholder = "Learning Coach Password";
+    }
+    const getForm = document.querySelector(".mobileLogin-Header");
+    if (getForm !== null) {
+      getForm.innerHTML +=
+        '<form action="/login/clever" method="get"><button class="Button Button--primary Button--block glow">Student Login</button></form>';
+    }
+    const getForgot = document.querySelector(
+      'a[class="forgot-password flip-to-back"]'
+    );
+    if (getForgot !== null) {
+      getForgot.innerHTML =
+        '<a class="ic-Login__link forgot_password_link" id="login_forgot_password" onclick="toggleVisibility()" style="background-color:#0161B6;">Forgot Password?</a>';
+    }
+  });
+}
+
+function toggleVisibility() {
+  const getResetText = document.querySelector(".flip-to-front");
+  const getHidden = document.querySelector("#forgot_password_form");
+  const toggleLogin = document.querySelector("#login_form");
+  toggleLogin.classList.toggle("front", "back");
+  getHidden.classList.toggle("back", "front");
+  if (getResetText !== null) {
+    getResetText.innerHTML =
+      '<span style="background-color:white;">after you submit please check your email</span>';
+  }
+}
+
+function saraSudo() {
+  if (ENV.current_user.display_name === "SARA MUNGALL" || ENV.current_user.display_name === "Sara Mungall") {
+    console.info(
+      `%c all hail ${ENV.current_user.display_name} `,
+      "background: #222; color: #0080ff"
+    );
+    const crossLink = document.querySelector(
+      "a.btn.button-sidebar-wide.crosslist_link"
+    );
+    const unCrossList = document.querySelector(
+      "a.btn.button-sidebar-wide.uncrosslist_link"
+    );
+    if (crossLink !== null) {
+      crossLink.style.cssText = "display:block !important;";
+      unCrossList.style.cssText = "display:block !important;";
+    }
+  } else {
+    console.info(
+      `%c Hi my name is ${ENV.current_user.display_name} `,
+      "color: #FF9FC1"
+    );
+  }
+}
+
+function replaceSupportButton() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#menu").then(element => {
+    let lynxButton = document.querySelector("#global_nav_help_link");
+    if (lynxButton !== null) {
+      lynxButton.addEventListener("click", replaceSupport, false);
+    }
+  });
+}
+
+function replaceSupport() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+
+  checkIfNull("#help_tray > form").then(element => {
+    element.removeAttribute("action");
+    element
+      .querySelectorAll("fieldset > input:not(.first)")
+      .forEach(el => el.remove());
+
+    function updateFields() {
+      let subjectInput = element
+        .querySelector("fieldset")
+        .querySelectorAll("input")[0].value;
+      subjectInput = encodeURIComponent(subjectInput);
+      let descriptionInput = element
+        .querySelector("fieldset")
+        .querySelector("textarea").value;
+      descriptionInput = encodeURIComponent(descriptionInput);
+      let affectingInput = element
+        .querySelector("fieldset")
+        .querySelector("select.ic-Input").selectedOptions[0].text;
+      affectingInput = encodeURIComponent(affectingInput);
+      let mailToBuild = `mailto:support@uview.academy?subject=${subjectInput}%20${affectingInput}&body=${descriptionInput}`;
+      //console.info(`%c ${mailToBuild}`, "color:#00a1f7");
+      let submitTicket = element.querySelector(
+        "fieldset > .ic-HelpDialog__form-actions > button.Button.Button--primary"
+      );
+      if (submitTicket !== null) {
+        submitTicket.parentNode.removeChild(submitTicket);
+      }
+      let submitTicketNew = element.querySelector(
+        "fieldset > .ic-HelpDialog__form-actions"
+      );
+      let aExist = element.querySelector(
+        "fieldset > .ic-HelpDialog__form-actions > a"
+      );
+      let newButton = (submitTicketNew.innerHTML = `<a class="btn btn-primary thisOne" onClick="window.open(${mailToBuild}, 'Mail');event.preventDefault()" href=${mailToBuild} target="_blank">Send an e-mail</a>`);
+      newButton;
+      if (aExist) {
+        aExist.remove();
+        newButton;
+      }
+      //return {subjectInput, descriptionInput, affectingInput,mailToBuild};
+    }
+    // let {subjectInput, descriptionInput, affectingInput,mailToBuild} = updateFields();
+    element.addEventListener("input", updateFields);
+  });
+}
+
+function replacePointsWithPercentage() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#assignment_grading_type").then(element => {
+    console.info(`%c set default grade view as percentage`, "color:#f7f300");
+    element.querySelector("option[value='points']").removeAttribute("selected");
+    element
+      .querySelector("option[value='percent']")
+      .setAttribute("selected", "");
+  });
+}
+
+function studentView() {
+  const checkIfTeacher = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfTeacher(".ic-app-nav-toggle-and-crumbs.no-print").then(element => {
+    console.info(`%c add student view`, "color:#f7f300");
+    let isTeacher,
+      isCourse,
+      courseId,
+      studentViewVisible,
+      studentViewURL,
+      getPath;
+    let visibleMenu = document.querySelector(
+      'nav #section-tabs li.section a[title="Settings"]'
+    );
+    // Determine if the user is actually a teacher
+    if (ENV["current_user_roles"].includes("teacher") && visibleMenu !== null) {
+      isTeacher = true;
+    } else {
+      isTeacher = false;
+    }
+    // Get the current Course ID and path based on the url of the course
+    isCourse = window.location.href.indexOf("/courses/") > -1;
+    getPath = window.location.pathname;
+
+    // Determine if the user is currently in student view
+    studentViewVisible = document.querySelector(
+      ".ic-alert-masquerade-student-view"
+    );
+    // Validate rendering the universal button based on the variables
+    if (isTeacher && isCourse && studentViewVisible === null) {
+      // If the user is truly a teacher for this course/student view is not already enabled, render the button
+      courseId = getPath
+        .split("courses/")
+        .pop()
+        .split("/")[0];
+      studentViewURL = `/courses/${courseId}/student_view`;
+      document.querySelector(
+        ".ic-app-nav-toggle-and-crumbs.no-print"
+      ).innerHTML += `<a class="btn button-sidebar-wide quick-access" href="${studentViewURL}" rel="nofollow" data-method="post"><i class="icon-student-view" role="presentation"></i> Launch Student View</a>`;
+    } else {
+      // If the user is not a teacher or student view is already enabled
+      if (
+        document.querySelector(".ic-app-nav-toggle-and-crumbs.no-print") !==
+          null &&
+        document.querySelector(".btn.button-sidebar-wide.quick-access") !== null
+      ) {
+        document
+          .querySelector(".ic-app-nav-toggle-and-crumbs.no-print")
+          .removeChild(".btn.button-sidebar-wide.quick-access");
+      }
+    }
+  });
+}
+
+function moduleGB() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#assignment_sort_order_select_menu").then(element => {
+      console.info(`%c ${ENV.current_user.display_name} is makin' bacon pancakes`, "color:#d1985e");
+      document.querySelector('#assignment_sort_order_select_menu').options[2].selected = true;
+  });
+}
+
+//--------------------------------------------------TESTING PARTITION-----------------------------------------------//
+
+// const apiTest = () => {
+//   const url1 = "/api/v1/";
+//   const options = {
+//     'credentials': 'same-origin',
+//     'headers': {
+//       'accept': 'application/json'
+//     },
+//     'timeout': 5000
+//   };
+//   fetch("/api/v1/users/self/", options)
+//     .then(response =>
+//       response.json()
+//         .then(data => ({
+//           data: data,
+//           ok: response.ok
+//         })
+//         ).then(res => {
+//           console.log(res.data, res.ok);
+//           let parent = res.data.id;
+
+//         }));
+// }
+// apiTest();

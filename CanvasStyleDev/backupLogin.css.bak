@@ -1,0 +1,371 @@
+/* variables colors for now implement later */
+:root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #ee5f5b;
+    --orange: #fd7e14;
+    --yellow: #f89406;
+    --green: #008000;
+    --teal: #20c997;
+    --cyan: #5bc0de;
+    --white: #fff;
+    --black:#000;
+    --gray: #7A8288;
+    --gray-dark: #3A3F44;
+    --primary: #3A3F44;
+    --secondary: #7A8288;
+    --success: #62c462;
+    --info: #5bc0de;
+    --warning: #f89406;
+    --danger: #ee5f5b;
+    --light: #e9ecef;
+    --dark: #272B30;
+    --goldSand:#e4b781;
+/* alphas */
+    --grayA:rgba(255, 255, 255, 0.349);
+    --whiteA:rgba(255, 255, 255, 0.445);
+    --whiteA1:rgba(255, 255, 255, 0.788);
+/* brand */
+    --brand:#0161b6;
+    --brand-15:#005299;
+    }
+/* Printing in Canvas*/
+@media print { a:link:after, a:visited:after { content: none; }}
+/* Printing in Canvas*/
+
+/*format background (image, color, etc.)*/
+    body.ic-Login-Body{
+    background-size: auto;
+    background-attachment: fixed;
+    background-color:var(--white);
+    }
+
+/*position the main login box area; This code sets it 75 pixels from the top*/
+    .ic-Login__container{
+        margin-top: 75px;
+    }
+
+    #forgot_passwors_form{
+        display: visible !important;
+    }
+
+/*changed the size to 500x833 to accommodate the size of our background image*/
+    .ic-Login__content{
+        background: url(https://s3.amazonaws.com/scschoolfiles/1534/img_pd_131054_ufioxd.jpg);
+        background-size:cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        height: 500px; 
+        width: 833px; 
+        box-shadow: 0 4px 20px -2px var(--black);
+        padding: 0px;
+    }
+
+    a.Button.Button--primary.ic-Login__sso-button--has-text.ic-Login__sso-button.ic-Login__sso-button--clever{
+        background-color: var(--white);
+    }
+/* margin on forgot password */
+    .ic-Form-control{
+        margin-bottom: 5px !important;
+    }
+/* Hide Canvas header logo*/
+    .ic-Login-header, .ic-Login-footer{
+        display: visible !important;
+    }
+/* Login(parent) button right side and push footer down */
+    /* .ic-Login__actions{
+        display: flex;
+        margin-bottom: 60px;
+    } */
+/* Login(parent) button left side remove padding*/
+    .ic-Login__actions{
+        display: block;
+        margin-bottom: 0;
+    }
+/* Comment this section out if login button(parent) is moved to the right side*/
+    .Button--login {
+        margin-top: 10px;
+    }
+/* logout hide logo */
+    .ic-Login-header__logo{
+        display: none !important;
+    }
+/* pushed login down to keep in center recolored text for better visibility */
+    .ic-Login__title{
+        color: var(--black);
+        margin-top: 200px;
+    }
+/* readibility "You are logged out of Canvas" */
+    .ic-Login__text{
+        color: var(--black);
+    }
+
+    .ic-Login-footer__logo-link{
+        display: none !important;
+    }
+     
+/*username login box*/
+    #pseudonym_session_unique_id{
+        height: 38px;
+        width: 235px;
+        background: var(--white);
+    }
+    
+/*password login box*/
+    #pseudonym_session_password{
+        height: 38px;
+        width: 235px;
+        background: var(--white);
+    }
+    #forgot_password_instructions{
+        background-color: var(--white)
+    }
+/*position entire login form (username, password, stay signed in, forgot password, log in button)*/
+    #login_form{
+        margin: 110px 0px 0px;
+    }
+/* login Button */
+    .Button--login{
+        background: var(--white) !important;
+        margin-top: 5px;
+    }
+/*Forgot Password? link*/
+    .ic-Login__link{
+        color: var(--white) !important;
+    }
+    #forgot_password_form{
+        margin-top: 140px;
+    }
+    .ic-Login__forgot-text {
+        padding: 5px;
+    }
+/*Stay Signed In link*/
+    label[for=pseudonym_session_remember_me]{
+        color: var(--white) !important;
+    }
+
+/* Remove Email and password text */
+    label[for="pseudonym_session_unique_id"]{
+        display:visible;
+        color: var(--black) !important;
+    }
+    label[for="pseudonym_session_password"]{
+        display:visible;
+        color: var(--black) !important;
+    }
+/* clever button */
+    a.Button.Button--primary.ic-Login__sso-button--has-text.ic-Login__sso-button.ic-Login__sso-button--clever{
+        will-change: auto;
+        animation-name: noticeMeSenpai;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+/* animation for button */
+    @keyframes noticeMeSenpai{
+        0% { box-shadow: 0 0 -10px var(--white)}
+        40% { box-shadow: 0 0 20px var(--white)}
+        60% { box-shadow: 0 0 20px var(--white)}
+        100% { box-shadow: 0 0 -10px var(--white)}
+    }
+/*------------------------------------------------------------------------  */
+/*------------------------------------------------------------  */
+/*--------------------------------------------------  */
+/*--------------------------------------  */
+/*----------------------------  */
+/*-----------------  */
+/*---------  */
+/*---  */
+/*--  */
+/*-  */
+/* Not the Login page */
+/* Sidebar left navigation */
+    header.ic-app-header.no-print{
+        background-color: var(--green);
+    }
+    div.file-upload-submission-attachment .modal_preview_link{
+    background: var(--brand);
+    color: var(--white);
+    border: 1px solid;
+    border-color: var(--brand-15);
+    border-radius: 3px;
+    transition: background-color 0.2s ease-in-out;
+    display: inline-block;
+    position: relative;
+    padding: 8px 14px;
+    margin-bottom: 0;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    text-shadow: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    }
+      /* 
+  file-upload-submission-attachment
+  "modal_preview_link Button--link"
+  */
+/*------------------------------------------------------------------------  */
+/*------------------------------------------------------------  */
+/*--------------------------------------------------  */
+/*--------------------------------------  */
+/*----------------------------  */
+/*-----------------  */
+/*---------  */
+/*---  */
+/*--  */
+/*-  */
+/* Mobile Application */
+    .mobileLogin-Header{
+        z-index: 1;
+        background-image: none !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .glow {
+        will-change: auto;
+        animation-name: noticeMeSenpai;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    .webkit.chrome.touch, .webkit.safari.touch{
+        background-image: url(https://s3.amazonaws.com/scschoolfiles/1534/img_pd_131054_ufioxd.jpg) !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .webkit.chrome.touch.with-right-side, .webkit.safari.touch.with-right-side{
+        background-image: none !important;
+    }
+    .webkit.chrome.touch.primary-nav-expanded, .webkit.safari.touch.primary-nav-expanded{
+        background-image: none !important;
+    }
+@supports (-webkit-overflow-scrolling: touch) {
+    /* CSS specific to iOS devices */ 
+    .touch.with-right-side{
+        background-image: none !important;
+    }
+}
+@supports not (-webkit-overflow-scrolling: touch) {
+    /* CSS non iOS devices */
+    .touch.with-right-side{
+        background-image: none !important;
+    }
+}
+                    /* ---                                     
+                    -        --                             
+                --( /     \ )XXXXXXXXXXXXX                   
+            --XXX(   O   O  )XXXXXXXXXXXXXXX-              
+           /XXX(       U     )        XXXXXXX\               
+         /XXXXX(              )--   XXXXXXXXXXX\             
+        /XXXXX/ (      O     )   XXXXXX   \XXXXX\
+        XXXXX/   /            XXXXXX   \   \XXXXX----        
+        XXXXXX  /          XXXXXX         \  ----  -         
+---     XXX  /          XXXXXX      \           ---        
+  --  --  /      /\  XXXXXX            /     ---=         
+    -        /    XXXXXX              '--- XXXXXX         
+      --\/XXX\ XXXXXX                      /XXXXX         
+        \XXXXXXXXX                        /XXXXX/
+         \XXXXXX                         /XXXXX/         
+           \XXXXX--  /                -- XXXX/       
+            --XXXXXXX---------------  XXXXX--         
+               \XXXXXXXXXXXXXXXXXXXXXXXX-            
+                 --XXXXXXXXXXXXXXXXXX- */
+                 
+/* Hide Delete Courses comment out to re-enable the delete courses option  */
+    #right-side a[href$="conclude"] {
+        display:none !important;
+        }
+    #right-side a[href$="delete"] {
+        display:none !important;
+        }
+/* Hide Delete Courses comment out to re-enable the delete courses option  */
+
+    #right-side 
+/* Hide to-do-list comment out to re-enable the to-do-list option  */
+    .todo-list , .Sidebar__TodoListContainer{
+        display:none !important;
+        }
+/* Hide the cross section */
+    a.btn.button-sidebar-wide.crosslist_link{
+        display:none !important ;
+    }
+/* Hide the de-crosslist */
+    a.btn.button-sidebar-wide.uncrosslist_link{
+        display:none !important ;
+    }
+/* hide add people manually */
+    #tab-0.roster-tab.tab-panel.ui-tabs-panel.form-inline.ui-widget-content.ui-corner-bottom > a{
+        display: none !important;
+    }
+/* hide email addition in the profile section */
+    a.add_email_link.icon-add{
+        display: none !important;
+    }
+/* remove the ability to change email in the profile options */
+   input#communication_channel_email{
+        display: none !important;
+    }
+/* remove all late submission notifications */
+    span.submission-late-pill{
+        display: none !important;
+    }
+
+/* Testing custom style Jewell Course*/
+/*  */
+/*
+,.  ,.
+||  ||
+,''--''.
+: (.)(.) :
+,'        `.
+:          :
+:          :
+._m____m_,'
+*/
+/*  */
+.flexboxJewell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .flexboxJewell a {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+  }
+  .flexboxJewell .card {
+    display:flex;
+    border: solid 5px;
+    border-image: conic-gradient(#A62648 25%, #038C73 25% 50%, #F2D230 50% 75%, #F29F05 75%) 1;
+    /* height: 10vh; */
+    margin: 2px;
+    align-items:center;
+    justify-content: center;
+    width: auto;
+    color: black;
+    font-family:Arial;
+    font-size:2em;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .flexboxJewell .card:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
