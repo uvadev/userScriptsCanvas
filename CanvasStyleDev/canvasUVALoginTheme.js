@@ -1,4 +1,50 @@
-const UVAFunctions = () =>{missingSubmissionsObserver(); addObserverEmailButton(); libraryMainNav(); sortGradesObservers(); iframeLonger(); logIn(); addChooseChild(); replaceSupportButton(); saraSudo(); replacePointsWithPercentage(); studentView();}
+////////////////////////////////////////////////////
+// DESIGN TOOLS CONFIG                            //
+////////////////////////////////////////////////////
+// Copyright (C) 2017  Utah State University
+const DT_variables = {
+  iframeID: '',
+  // Path to the hosted USU Design Tools
+  path: 'https://designtools.ciditools.com/',
+  templateCourse: '5896',
+  // OPTIONAL: Button will be hidden from view until launched using shortcut keys
+  hideButton: false,
+ // OPTIONAL: Limit by course format
+ limitByFormat: false, // Change to true to limit by format
+ // adjust the formats as needed. Format must be set for the course and in this array for tools to load
+ formatArray: [
+      'online',
+      'on-campus',
+      'blended'
+  ],
+  // OPTIONAL: Limit tools loading by users role
+  limitByRole: false, // set to true to limit to roles in the roleArray
+  // adjust roles as needed
+  roleArray: [
+      'student',
+      'teacher',
+      'admin'
+  ],
+  // OPTIONAL: Limit tools to an array of Canvas user IDs
+  limitByUser: false, // Change to true to limit by user
+  // add users to array (Canvas user ID not SIS user ID)
+  userArray: [
+  ]
+};
+
+// Run the necessary code when a page loads
+$(document).ready(function () {
+'use strict';
+// This runs code that looks at each page and determines what controls to create
+$.getScript(DT_variables.path + 'js/master_controls.js', function () {
+  console.log('master_controls.js loaded');
+});
+});
+////////////////////////////////////////////////////
+// END DESIGN TOOLS CONFIG                        //
+////////////////////////////////////////////////////
+
+const UVAFunctions = () =>{logIn(); observerContactChange(); missingSubmissionsObserver(); addObserverEmailButton(); libraryMainNav(); sortGradesObservers(); addChooseChild(); replaceSupportButton(); saraSudo(); replacePointsWithPercentage(); sortCoursesPeopleView();};
 if (document.readyState !== "loading") {
   console.info("1");
   UVAFunctions();
@@ -7,7 +53,35 @@ if (document.readyState !== "loading") {
     console.info("2");
     UVAFunctions();
   });
-}
+};
+//personalize canvas for students
+//<strong class="uvaFirst"></strong>
+//<strong class="uvaLast"></strong>
+//<img class="uvaPicture" alt="my avatar" width="200" height="200">
+const uvaFirstName = ENV.current_user.display_name.split(" ")[0];
+const uvaFirst = document.querySelectorAll('.uvaFirst');
+if (uvaFirst.length !== 0) {
+  uvaFirst.forEach(refer => {
+    refer.innerHTML = uvaFirstName;
+  });
+};
+
+const uvaLastName = ENV.current_user.display_name.split(" ")[1];
+const uvaLast = document.querySelectorAll('.uvaLast');
+if (uvaLast.length !== 0) {
+  uvaLast.forEach(refer => {
+    refer.innerHTML = uvaLastName;
+  });
+};
+
+const uvaAvatar = ENV.current_user.avatar_image_url;
+const uvaPicture = document.querySelectorAll('.uvaPicture');
+if (uvaPicture.length !== 0) {
+  uvaPicture.forEach(refer => {
+    refer.setAttribute("src", uvaAvatar);
+  });
+};
+
 function logIn() {
   const checkIfNull = async selector => {
     while (document.querySelector(selector) === null) {
@@ -54,8 +128,9 @@ function logIn() {
     //   getForgot.innerHTML =
     //     '<a class="ic-Login__link forgot_password_link" id="login_forgot_password" onclick="toggleVisibility()" style="background-color:#0161B6;">Forgot Password?</a>';
     // }
+    changePairing();
   });
-}
+};
 
 function toggleVisibility() {
   const getResetText = document.querySelector(".flip-to-front");
@@ -66,11 +141,27 @@ function toggleVisibility() {
   if (getResetText !== null) {
     getResetText.innerHTML =
       '<span style="background-color:white;">after you submit please check your email</span>';
+  };
+};
+
+function changePairing() {
+  const checkIfNull = async selector => {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#ui-id-2").then(() => {
+    const getPairingLink = document.querySelector("#ui-id-2 .pairing-code-text > a");
+    if (getPairingLink !== null){
+      getPairingLink.setAttribute(`href`, `http://ior.ad/76YW`);
+    }
   }
-}
+  );
+};
 
 function saraSudo() {
-  if (ENV.current_user.display_name === "SARA MUNGALL" || ENV.current_user.display_name === "Sara Mungall" || ENV.current_user.display_name === "Daniel Guillot" || ENV.current_user.display_name === "DANIEL GUILLOT") {
+  if (ENV.current_user.display_name === "someNames" ) {
     console.info(
       `%c all hail ${ENV.current_user.display_name} `,
       "background: #222; color: #0080ff"
@@ -81,17 +172,50 @@ function saraSudo() {
     const unCrossList = document.querySelector(
       "a.btn.button-sidebar-wide.uncrosslist_link"
     );
+    const unAlive = document.querySelector(
+      "#right-side a[href$='delete']"
+    );
+    const resetCourse = document.querySelector(
+      "#right-side > div > a.Button.Button--link.Button--link--has-divider.Button--course-settings.reset_course_content_button"
+    );
     if (crossLink !== null) {
       crossLink.style.cssText = "display:block !important;";
       unCrossList.style.cssText = "display:block !important;";
+    }
+    if (unAlive !== null) {
+      unAlive.style.cssText = "display:block !important;";
+    }
+    if (resetCourse !== null) {
+      resetCourse.style.cssText = "display:block !important;";
     }
   } else {
     console.info(
       `%c Hi my name is ${ENV.current_user.display_name} `,
       "color: #FF9FC1"
     );
+  };
+};
+
+function observerContactChange() {
+  if(ENV.current_user_id){
+    if (ENV.current_user_roles.includes("observer") && window.location.href.indexOf("/profile/settings") > -1) {
+      console.info(
+        `%c parent, guardian, or learning coach ${ENV.current_user.display_name} `,
+        "background: #222; color: #fcba03"
+      );
+      //enable email addition in the profile section
+      const emailIcon = document.querySelector('a.add_email_link.icon-add');
+      if (emailIcon !== null){
+        emailIcon.style.display = "block";
+      }
+      /* enable the ability to change email in the profile options */
+      const emailInput = document.querySelector("#communication_channel_email");
+      if (emailInput !== null) {
+        emailInput.style.display = "block";
+      }
+    }
   }
-}
+};
 
 function replaceSupportButton() {
   const checkIfNull = async selector => {
@@ -106,7 +230,7 @@ function replaceSupportButton() {
       lynxButton.addEventListener("click", replaceSupport, false);
     }
   });
-}
+};
 
 function replaceSupport() {
   const checkIfNull = async selector => {
@@ -160,7 +284,7 @@ function replaceSupport() {
     // let {subjectInput, descriptionInput, affectingInput,mailToBuild} = updateFields();
     element.addEventListener("input", updateFields);
   });
-}
+};
 
 function replacePointsWithPercentage() {
   const checkIfNull = async selector => {
@@ -176,85 +300,13 @@ function replacePointsWithPercentage() {
       .querySelector("option[value='percent']")
       .setAttribute("selected", "");
   });
-}
-
-function studentView() {
-  const checkIfTeacher = async selector => {
-    while (document.querySelector(selector) === null) {
-      await new Promise(resolve => requestAnimationFrame(resolve));
-    }
-    return document.querySelector(selector);
-  };
-  checkIfTeacher(".ic-app-nav-toggle-and-crumbs.no-print").then(() => {
-    console.info(`%c add student view`, "color:#f7f300");
-    let isTeacher,
-      isCourse,
-      courseId,
-      studentViewVisible,
-      studentViewURL,
-      getPath;
-    let visibleMenu = document.querySelector(
-      'nav #section-tabs li.section a[title="Settings"]'
-    );
-    // Determine if the user is actually a teacher
-    if (ENV["current_user_roles"].includes("teacher") && visibleMenu !== null) {
-      isTeacher = true;
-    } else {
-      isTeacher = false;
-    }
-    // Get the current Course ID and path based on the url of the course
-    isCourse = window.location.href.indexOf("/courses/") > -1;
-    getPath = window.location.pathname;
-
-    // Determine if the user is currently in student view
-    studentViewVisible = document.querySelector(
-      ".ic-alert-masquerade-student-view"
-    );
-    // Validate rendering the universal button based on the variables
-    if (isTeacher && isCourse && studentViewVisible === null) {
-      // If the user is truly a teacher for this course/student view is not already enabled, render the button
-      courseId = getPath
-        .split("courses/")
-        .pop()
-        .split("/")[0];
-      studentViewURL = `/courses/${courseId}/student_view`;
-      document.querySelector(
-        ".ic-app-nav-toggle-and-crumbs.no-print"
-      ).innerHTML += `<a class="btn button-sidebar-wide quick-access" href="${studentViewURL}" rel="nofollow" data-method="post"><i class="icon-student-view" role="presentation"></i> Launch Student View</a>`;
-    } else {
-      // If the user is not a teacher or student view is already enabled
-      if (
-        document.querySelector(".ic-app-nav-toggle-and-crumbs.no-print") !==
-          null &&
-        document.querySelector(".btn.button-sidebar-wide.quick-access") !== null
-      ) {
-        document
-          .querySelector(".ic-app-nav-toggle-and-crumbs.no-print")
-          .removeChild(".btn.button-sidebar-wide.quick-access");
-      }
-    }
-  });
-}
-
-function moduleGB() {
-  const checkIfNull = async selector => {
-    while (document.querySelector(selector) === null) {
-      await new Promise(resolve => requestAnimationFrame(resolve));
-    }
-    return document.querySelector(selector);
-  };
-  checkIfNull("#assignment_sort_order_select_menu").then(() => {
-      console.info(`%c ${ENV.current_user.display_name} is makin' bacon pancakes`, "color:#d1985e");
-      document.querySelector('#assignment_sort_order_select_menu').options[2].selected = true;
-  });
-}
+};
 
 function addChooseChild() {
-  if (
-    ENV["current_user_roles"].includes("observer") &&
-    window.location.href.includes("calendar")
-  ) {
+  if (ENV["current_user_roles"].includes("observer") && !ENV["current_user_roles"].includes("teacher") &&
+    window.location.href.includes("calendar")) {
     const fetchObservees = `/api/v1/users/self/observees?per_page=50`;
+    let preVal;
     const options = {
       credentials: "same-origin",
       headers: {
@@ -269,14 +321,14 @@ function addChooseChild() {
             ok: response.ok
         });
         if (res.ok) {
-            console.log(res);
+            //console.log(res);
             const children = res.data;
             let p = [];
             children.forEach(child => {
                 p.push(new Promise(function (resolve) {
                     console.log(child);
                     let childId = child.id;
-                    const fetchCourses = `/api/v1/users/${childId}/courses?per_page=50&include[]=term`;
+                    const fetchCourses = `/api/v1/users/${childId}/courses?per_page=100&include[]=term&enrollment_state=active`;
                     const options0 = {
                         credentials: "same-origin",
                         headers: {
@@ -291,19 +343,18 @@ function addChooseChild() {
                             ok: response.ok
                         });
                         if (courses.ok) {
-                            console.info(courses);
+                            //console.info(courses);
                             let listCourses = [];
                             courses.data.forEach(courseX => {
                                 //console.log(courseX);
-                                if (courseX.term &&
-                                    Date.now() > Date.parse(courseX.term.start_at) &&
-                                    Date.now() < Date.parse(courseX.term.end_at)) {
+                                if (courseX.term){
                                     listCourses.push("course_" + courseX.id);
                                     //console.log("here" + listCourses);
                                 }
                             });
                             resolve({
                                 childName: child.name,
+                                childId: child.id,
                                 courses1: listCourses
                             });
                         }
@@ -311,78 +362,136 @@ function addChooseChild() {
                 }));
             });
             Promise.all(p).then(outPut => {
+                const storeData = outPut.map(x => { return {childId: x.childId, courses1: x.courses1}});
                 document.querySelector("#calendar_header").innerHTML += `
-              <select id="calendar_children" onchange="location = this.value;">
+              <select id="calendar_children" onchange="check_status(check_status(this,this.value))">
                 <option class="calendar_child">Select Child</option>
-                ${outPut.map(x => `<option class="calendar_child" value="calendar?include_contexts=${x.courses1}">${x.childName}</option>`)}
+                ${outPut.map(x => `<option data-id=${x.childId} class="calendar_child" value="calendar?include_contexts=${x.courses1}">${x.childName}</option>`)}
               </select>
             `;
+            setTimeout(()=>{parentCrossOffWrapper();},5000);
             });
         }
     });
   }
 }
+const check_status = (obj,val) =>{
+    obj.options[obj.selectedIndex].getAttribute('data-id');
+    console.info(obj);
+    localStorage.setItem('idNum', JSON.stringify(obj.options[obj.selectedIndex].getAttribute('data-id')));
+    localStorage.setItem('courseVal', JSON.stringify(val));
+    location=val;}
 
-function iframeLonger() {
-  const checkIfNull = async selector => {
-    while (document.querySelector(selector) === null) {
-      await new Promise(resolve => requestAnimationFrame(resolve));
-    }
-    return document.querySelector(selector);
+const parentCrossOffWrapper = async () => {
+  let date = new Date(),
+    y = date.getFullYear(),
+    m = date.getMonth();
+  let firstDay = new Date(y, m, 1).toISOString();
+  let lastDay = new Date(y, m + 1, 0).toISOString();
+
+  let kidNum = JSON.parse(localStorage.getItem("idNum"));
+  let courseList = [];
+  let completed = [];
+  let courseCollection;
+  let courseArray = JSON.parse(localStorage.getItem("courseVal")).split(
+    /(?:,|=)/
+  );
+  courseArray.shift();
+  courseArray.forEach((course) => {
+    courseList.push("context_codes[]=" + course);
+  });
+  courseList = courseList.join("&");
+
+  const options = {
+    credentials: "same-origin",
+    headers: {
+      accept: "application/json",
+    },
+    timeout: 5000,
   };
 
-  checkIfNull("#main").then(() => {
-    const edgyHeight = 1450;
-    const flvsHeight = 800;
-    const edgyCourses = ["1756", "2737", "1757", "2738", "1758", "41"];
-    const flvsCourses = ["1035"];
-    const currentCourseNum = window.location.pathname
-      .split("courses/")
-      .pop()
-      .split("/")[0];
+  const nextURL = (linkTxt) => {
+    if (linkTxt) {
+      let links = linkTxt.split(",");
+      let nextRegEx = new RegExp('^<(.*)>; rel="next"$');
 
-    const handleLTI = (ltiTool,pixels) => {
-      console.info(
-        `this is an Edgy Class set iFrame height to ${pixels}`
-      );
-      ltiTool.removeAttribute("style");
-      setTimeout(() => {
-        ltiTool.setAttribute("style", `height: ${pixels}px`);
-        //console.log(ltiTool);
-      }, 2000);
-    };
-    if (edgyCourses.includes(currentCourseNum)) {
-      // set up the mutation observer
-      let observer = new MutationObserver(() => {
-        let ltiTool = document.querySelector(".tool_content_wrapper");
-        if (ltiTool) {
-          handleLTI(ltiTool,edgyHeight);
-          return;
+      for (let i = 0; i < links.length; i++) {
+        let matches = nextRegEx.exec(links[i]);
+        if (matches && matches[1]) {
+          //return right away
+          //console.log(matches[1]);
+          return matches[1];
         }
-      });
-      // start observing
-      observer.observe(document, {
-        childList: true,
-        subtree: true
-      });
+      }
+    } else {
+      return false;
     }
-    if (flvsCourses.includes(currentCourseNum)) {
-      // set up the mutation observer
-      let observer1 = new MutationObserver(() => {
-        let ltiTool = document.querySelector(".tool_content_wrapper");
-        if (ltiTool) {
-          handleLTI(ltiTool,flvsHeight);
-          return;
-        }
-      });
-      // start observing
-      observer1.observe(document, {
-        childList: true,
-        subtree: true
-      });
+  };
+
+  const loopy = async (courses) => {
+    if (nextURL(courses.headers.get("Link")) === undefined) {
+      return;
+      //otherwise keep going.
+    } else {
+      const rspns = await fetch(nextURL(courses.headers.get("Link")), options);
+      let moreData = await rspns.json();
+      let resP = {
+        data: moreData,
+        ok: rspns.ok,
+        headers: rspns.headers,
+      };
+      if (resP.ok) {
+        //console.log(resP.data);
+        courseCollection = courseCollection.concat(resP.data);
+        // console.info(Object.keys(kidd.data).length);
+        // console.info(Object.keys(dataCollection).length);
+      }
+      await loopy(resP);
     }
-  });
-}
+  };
+
+  const parentCrossOff = async () => {
+    const fetchUrl = `/api/v1/users/${kidNum}/calendar_events?${courseList}&type=assignment&excludes[]=description&start_date=${firstDay}&end_date=${lastDay}&per_page=100`;
+
+    fetch(fetchUrl, options).then((response) =>
+      response
+        .json()
+        .then(() => ({
+          ok: response.ok,
+          headers: response.headers
+        }))
+        .then(async (res) => {
+          if (res.ok) {
+            courseCollection = res.data;
+            console.log(courseCollection);
+            await loopy(res);
+            console.info("courseCollection", courseCollection);
+          }
+        })
+        .then(async () => {
+          courseCollection.forEach((one) => {
+            if (one.assignment.user_submitted === true) {
+              completed.push(one.assignment.name);
+            }
+          });
+          console.info("completed", completed);
+        })
+        .then(async () => {
+          console.info("last", completed);
+          [...document.querySelectorAll("#calendar-app span.fc-title")].forEach(
+            (assName) => {
+              if (completed.includes(assName.outerText.split(":\n")[1])) {
+                assName.setAttribute("class", "calendar__event--completed");
+              }
+            }
+          );
+        })
+    );
+  };
+  parentCrossOff();
+};
+
+
 
 function sortGradesObservers() {
   const checkIfNull = async selector => {
@@ -393,52 +502,44 @@ function sortGradesObservers() {
   };
 
   checkIfNull("table.course_details.observer_grades").then(() => {
-    //console.info(ENV.current_user_roles.includes("observer"),window.location.pathname.includes("/grades"));
     if (
       ENV.current_user_roles.includes("observer") &&
       window.location.pathname.includes("/grades")
     ) {
-        let table,
-          rows,
-          switching,
-          i,
-          thisRow,
-          nextRow,
-          shouldSwitch,
-          percentColumn;
-        table = document.querySelector("table.course_details.observer_grades");
-        percentColumn = document.querySelectorAll("td.percent");
-        percentColumn.forEach(one => {
-          if (one.innerText === "no grade") {
-            one.parentNode.style.display = "none";
+      let table, tRows;
+      table = document.querySelector("table.course_details.observer_grades");
+      tRows = document.querySelectorAll(
+        "table.course_details.observer_grades > tbody > tr"
+      );
+      const filterRows = async () => {
+        tRows.forEach(one => {
+          if (
+            !one.innerHTML.includes("select") &&
+            one.querySelector(".percent").innerText.includes("no grade")
+          ) {
+            one.style.display = "none";
           }
         });
-        switching = true;
-        while (switching) {
-          switching = false;
-          rows = table.rows;
-          for (i = 0; i < rows.length; i++) {
-            shouldSwitch = false;
-            thisRow = rows[i].querySelectorAll("td")[0];
-            if (i !== rows.length - 1) {
-              nextRow = rows[i + 1].querySelectorAll("td")[0];
-            }
-            if (
-              thisRow.innerText.toLowerCase() > nextRow.innerText.toLowerCase()
-            ) {
-              shouldSwitch = true;
-              break;
-            }
-          }
-          if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-          }
-        }
-      // set up the mutation observer
+      };
+      filterRows().then(() => {
+        const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+// do the work...
+const daThing = th => {
+    const table = document.querySelector("#content > table.course_details.observer_grades");
+    Array.from(tRows)
+        .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+        .forEach(tr => table.appendChild(tr) );
+}
+daThing(document.querySelectorAll('td')[0]);
+      });
     }
   });
-}
+};
 
 function libraryMainNav() {
   const checkIfNull = async selector => {
@@ -457,7 +558,7 @@ function libraryMainNav() {
       ".menu-item.ic-app-header__menu-list-item"
     );
     liNodeApp.innerHTML = `
-<a id="global_nav_library_link" class="ic-app-header__menu-list-link" href="https://clever.com/oauth/instant-login?client_id=e9883f835c1c58894763&district_id=5c9915855260ef0001c80f9b" target="_blank">
+<a id="global_nav_library_link" class="ic-app-header__menu-list-link" href="https://clever.com/oauth/instant-login?client_id=..." target="_blank">
               <div class="menu-item-icon-container">
                 <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--inbox" version="1.1" x="0" y="0" viewBox="0 0 500 500" enable-background="new 0 0 280 280" xml:space="preserve"><path fill="currentColor" d="M459.91 192.02c-.7 0-1.39.02-2.06.05-49.8 2.84-140.51 13-201.84 47.57-61.33-34.57-152.05-44.73-201.84-47.57-.67-.04-1.36-.05-2.06-.05C31.71 192.01 0 206.36 0 242.22v178.05c0 26.69 21.25 48.7 48.34 50.12 34.41 1.81 120.56 9.08 177 37.47 4.68 2.37 9.66 3.5 14.66 3.84v.27h2.27c.09 0 .18.03.26.03h26.94c.09 0 .18-.03.26-.03H272v-.27c5-.34 9.98-1.48 14.66-3.84 56.44-28.39 142.59-35.65 177-37.47 27.09-1.42 48.34-23.44 48.34-50.12V242.22c0-35.86-31.71-50.2-52.09-50.2zM240 479.35c-.09-.04-.18-.02-.28-.07-59.59-29.97-144.43-38.45-189.7-40.84-10.1-.53-18.02-8.51-18.02-18.17V242.22c0-6.05 1.77-10 5.93-13.2 4.47-3.44 10.47-5.01 14.4-5.01 37.01 2.11 129.27 10.58 187.67 43.36v211.98zm240-59.08c0 9.66-7.92 17.64-18.03 18.17-45.27 2.38-130.11 10.86-189.76 40.87-.07.04-.14.02-.22.05V267.37c58.39-32.79 150.66-41.25 187.51-43.35l.39-.01c.2 0 20.09.49 20.09 18.21v178.05zM256 191.99c53.02 0 96-42.98 96-95.99S309.02 0 256 0s-96 42.98-96 95.99 42.98 96 96 96zM256 32c35.29 0 64 28.71 64 64s-28.71 64-64 64-64-28.71-64-64 28.71-64 64-64z"></path></svg></span>
               </div>
@@ -468,7 +569,7 @@ function libraryMainNav() {
 `;
     mainMenu.appendChild(temp);
   });
-}
+};
 
 function addObserverEmailButton() {
   const checkIfNull = async selector => {
@@ -667,8 +768,8 @@ function addObserverEmailButton() {
               `(×_×;）-In order to add parents you must select a course first. Re-fresh to try again. -（ｏ。ｏ；）`
             );
           }
-        },
-        { once: true }
+         }//,
+        // { once: true }
       );
     }
   });
@@ -690,7 +791,7 @@ function addObserverEmailButton() {
     }, timeout);
   };
   //---------------------------------------------------------------------------
-}
+};
 
 function missingSubmissionsObserver() {
   const checkIfNull = async selector => {
@@ -699,10 +800,11 @@ function missingSubmissionsObserver() {
     }
     return document.querySelector(selector);
   };
-  checkIfNull(".user-observees").then(() => {
-    if (ENV.current_user_roles.includes("observer")) {
-      const observeePage = document.querySelector(".user-observees");
-      const fetchObservees = `/api/v1/users/self/observees`;
+  checkIfNull(".recent-activity-header").then(() => {
+    if (ENV.current_user_roles.includes("observer") && !ENV.current_user_roles.includes("teacher")) {
+
+      const observeePage = document.querySelector(".recent-activity-header");
+      const fetchObservees = `/api/v1/users/self/observees?per_page=30`;
       const options = {
         credentials: "same-origin",
         headers: { accept: "application/json" },
@@ -713,6 +815,14 @@ function missingSubmissionsObserver() {
       let missingSubmissionsContainer;
       let observeesListContainer;
       const borderStyle =`border-bottom: 1px solid #005299;padding-left:8px;`;
+      const tableClasses = [`ic-Table`, `ic-Table--condensed`];
+      const filteringConfig = {
+        'l8 sub after': `2022-01-06T01:01:01Z`, //ISO or function
+        'locked for a user': false, //bool
+        'omit from final grade': false, //bool
+        'display points possible if greater or equal to': 0, //num
+        'submittable':`&filter[]=submittable` //either `&filter[]=submittable` || `` blank
+      };
       //------------------------------------------------------------------
       const nextURL = linkTxt => {
         if (linkTxt) {
@@ -744,7 +854,7 @@ function missingSubmissionsObserver() {
       };
 
       fetchObserveesID().then(async () => {
-        observeePage.innerHTML = 
+        observeePage.insertAdjacentHTML( 'beforebegin',
         `
         <h2 id="being-observed">Students Being Observed</h2>
         <a href="/grades" class="Button">View Grades</a>
@@ -754,6 +864,7 @@ function missingSubmissionsObserver() {
         <div class="observees-list-container"></div>
         <div class="missing-submissions-container"></div>
         `
+        )
         ;
         observeesListContainer = document.querySelector(
           ".observees-list-container"
@@ -787,7 +898,7 @@ function missingSubmissionsObserver() {
         pMan.style.setProperty("--playState", "play");
         //loading animation
         const response = await fetch(
-          `/api/v1/users/${progeny}/missing_submissions?include[]=course&filter[]=submittable&per_page=100`,
+          `/api/v1/users/${progeny}/missing_submissions?include[]=course${filteringConfig['submittable']}&per_page=100`,
           options
         );
         const data1 = await response.json();
@@ -826,6 +937,8 @@ function missingSubmissionsObserver() {
       const scrubMissingSubs = async nomenclature => {
         let docFrag = new DocumentFragment();
         const dataView = document.createElement("div");
+        let classesToAddDV = [`ic-Dashboard-Activity`]; //add more classes
+        dataView.classList.add(...classesToAddDV);
         docFrag.appendChild(dataView);
         //dataView.appendChild(tHead);
 
@@ -833,19 +946,20 @@ function missingSubmissionsObserver() {
         //LOOP
         let filteredDataCollection = dataCollection.filter(
           lex =>
-            lex.due_at > "2020-01-01T01:01:01Z" &&
-            !lex.locked_for_user /**&&
-            !lex.omit_from_final_grade &&
-            lex.points_possible >= 1 **/
+            lex.due_at >= filteringConfig["l8 sub after"] &&
+            lex.locked_for_user === filteringConfig["locked for a user"] &&
+            lex.omit_from_final_grade === filteringConfig["omit from final grade"] &&
+            lex.points_possible >= filteringConfig["display points possible if greater or equal to"]
         );
         filteredDataCollection.reverse();
         // console.log(filteredDataCollection);
         let totLen = Object.keys(filteredDataCollection).length;
         let totes = document.createElement("h3");
-        totes.style.color = '#005299';
+        totes.style.color = "#005299";
         totes.textContent = `${nomenclature} -> Current Total of Missing Assignments (${totLen})`;
         dataView.appendChild(totes);
         const kidTable = document.createElement("table");
+        kidTable.classList.add(...tableClasses);
         const kidHeaderRow = document.createElement("tr");
         const kidHeader1 = document.createElement("th");
         kidHeader1.style = borderStyle;
@@ -868,6 +982,7 @@ function missingSubmissionsObserver() {
         filteredDataCollection.forEach(lateSub => {
           let kidR = document.createElement("tr");
           let dT = String(new Date(lateSub.due_at).toDateString());
+          let nameTrunc = lateSub.name.substring(0, 50);
           let kid1 = document.createElement("td");
           kid1.style = borderStyle;
           let kid2 = document.createElement("td");
@@ -880,7 +995,7 @@ function missingSubmissionsObserver() {
           kid4.style = borderStyle;
           kid1.textContent = ` ${dT} `;
           kid2.textContent = ` ${lateSub.course.name} `;
-          kidA.textContent += ` ${lateSub.name} `;
+          kidA.textContent += ` ${nameTrunc} `;
           kid4.textContent = ` ${lateSub.points_possible} `;
           kidTable.appendChild(kidR);
           kidR.appendChild(kid1);
@@ -897,6 +1012,35 @@ function missingSubmissionsObserver() {
         //loading animation
         missingSubmissionsContainer.after(docFrag);
       };
+    }
+  });
+};
+
+function sortCoursesPeopleView() {
+  const checkIfNull = async (selector) => {
+    while (document.querySelector(selector) === null) {
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    }
+    return document.querySelector(selector);
+  };
+  checkIfNull("#user-info-fieldsets").then(() => {
+    const enrollmentsFieldset = document.querySelector("#courses > #content");
+    enrollmentsFieldset.setAttribute("style","resize: vertical; overflow: scroll; font-size: 0.8em; height:200px;");
+    const subFieldset = document.querySelector("#courses_list > div > ul");
+    subFieldset.setAttribute("style", "margin-left: 5px; font-size: 0.9em; margin-bottom: 10px; overflow:auto");
+
+    let ulList = document.querySelector("#courses_list > div > ul");
+    let items = ulList.querySelectorAll("li");
+
+    for (
+      let i = 0, arr = ["active", "completed", "unpublished"];
+      i < arr.length;
+      i++
+    ) {
+      for (let j = 0; j < items.length; j++) {
+        if (~(" " + items[j].className + " ").indexOf(" " + arr[i] + " "))
+          ulList.appendChild(items[j]);
+      }
     }
   });
 }
